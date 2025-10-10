@@ -42,7 +42,7 @@
             x-load-src="{{ \Filament\Support\Facades\FilamentAsset::getAlpineComponentSrc('filament-google-maps-geocomplete', 'cheesegrits/filament-google-maps') }}"
             x-data="filamentGoogleGeocomplete({
                         setStateUsing: async (path, state) => {
-                            console.log($path,$state);
+                            console.log(path, state);
                             return await $wire.set(path, state)
                         },
                         reverseGeocodeUsing: (results) => {
