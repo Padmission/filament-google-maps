@@ -218,9 +218,10 @@ export default function filamentGoogleGeocomplete({
     updateReverseGeocode: async function (place) {
       if (this.hasReverseGeocode()) {
         if (place.address_components) {
-          //await setStateUsing(config.autocomplete, response.results[0].formatted_address);
           const replacements = this.getReplacements(place.address_components);
+          const updatePromises = [];
 
+          // Collect all update promises
           for (const field in reverseGeocodeFields) {
             let replaced = reverseGeocodeFields[field];
 
@@ -235,26 +236,34 @@ export default function filamentGoogleGeocomplete({
             }
 
             replaced = replaced.trim();
-            await setStateUsing(field, replaced);
+            updatePromises.push(setStateUsing(field, replaced));
+          }
+
+          // Wait for all updates to complete
+          try {
+            await Promise.all(updatePromises);
+          } catch (error) {
+            console.error('Error batch updating fields:', error);
           }
         }
 
+        // Handle the reverseGeocodeUsing callback separately if it exists
         if (hasReverseGeocodeUsing) {
           reverseGeocodeUsing(place);
         }
       }
     },
     updateLatLng: async function (place) {
-      if (Object.keys(latLngFields).length > 0) {
-        if (place.geometry) {
-          await setStateUsing(
-            latLngFields.lat,
-            place.geometry.location.lat().toString()
-          );
-          await setStateUsing(
-            latLngFields.lng,
-            place.geometry.location.lng().toString()
-          );
+      if (Object.keys(latLngFields).length > 0 && place.geometry) {
+        const updatePromises = [
+          setStateUsing(latLngFields.lat, place.geometry.location.lat().toFixed(7)),
+          setStateUsing(latLngFields.lng, place.geometry.location.lng().toFixed(7))
+        ];
+
+        try {
+          await Promise.all(updatePromises);
+        } catch (error) {
+          console.error('Error updating lat/lng fields:', error);
         }
       }
     },
