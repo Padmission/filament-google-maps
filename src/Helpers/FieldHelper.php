@@ -34,12 +34,27 @@ class FieldHelper
     public static function getFieldId(string $field, Component $component): ?string
     {
         $topComponent = self::getTopComponent($component);
-        $flatFields   = static::getFlatFields($topComponent);
-        $flatFields = collect($flatFields)
-            ->whereInstanceOf(Field::class)->keyBy(fn($field) => $field->getName());
+        $flatFields = static::getFlatFields($topComponent);
+        $fieldsCollection = collect($flatFields)->whereInstanceOf(Field::class);
 
-        if ($flatFields->has($field)) {
-            return $flatFields->get($field)->getStatePath();
+        $fieldsByName = $fieldsCollection->keyBy(fn ($field) => $field->getName());
+
+        if ($fieldsByName->has($field)) {
+            return $fieldsByName->get($field)->getStatePath();
+        }
+
+        $fieldsByPath = $fieldsCollection->keyBy(fn ($field) => $field->getStatePath());
+
+        if ($fieldsByPath->has($field)) {
+            return $fieldsByPath->get($field)->getStatePath();
+        }
+
+        $matchingField = $fieldsCollection->first(function ($f) use ($field) {
+            return str_ends_with($f->getStatePath(), $field);
+        });
+
+        if ($matchingField) {
+            return $matchingField->getStatePath();
         }
 
         return null;
