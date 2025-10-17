@@ -4,6 +4,8 @@ namespace Cheesegrits\FilamentGoogleMaps\Concerns;
 
 use Cheesegrits\FilamentGoogleMaps\Fields\Geocomplete;
 use Cheesegrits\FilamentGoogleMaps\Fields\Map;
+use Filament\Actions\Action;
+use Filament\Actions\ActionGroup;
 
 trait InteractsWithMaps
 {
@@ -25,6 +27,10 @@ trait InteractsWithMaps
                 $component->reverseGeocodeUpdated($results);
 
                 return true;
+            }
+
+            if (($component instanceof Action) || ($component instanceof ActionGroup)) {
+                continue;
             }
 
             foreach ($component->getChildComponentContainers() as $childComponentContainer) {
@@ -59,6 +65,10 @@ trait InteractsWithMaps
                 $component->placeUpdated($results);
 
                 return true;
+            }
+
+            if (($component instanceof Action) || ($component instanceof ActionGroup)) {
+                continue;
             }
 
             foreach ($component->getChildComponentContainers() as $childComponentContainer) {

@@ -4,6 +4,8 @@ namespace Cheesegrits\FilamentGoogleMaps\Helpers;
 
 use Filament\Forms\Components\Field;
 use Filament\Schemas\Components\Component;
+use Filament\Actions\Action;
+use Filament\Actions\ActionGroup;
 
 class FieldHelper
 {
@@ -19,6 +21,10 @@ class FieldHelper
         $flatFields = $topComponent->getContainer()->getFlatFields();
 
         foreach ($topComponent->getContainer()->getComponents() as $component) {
+            if (($component instanceof Action) || ($component instanceof ActionGroup)) {
+                continue;
+            }
+            
             foreach ($component->getChildComponentContainers() as $container) {
                 if ($container->isHidden()) {
                     continue;
