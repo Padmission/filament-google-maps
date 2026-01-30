@@ -11,13 +11,12 @@ either as part of an admin panel, or in standalone front end forms, tables and d
 
 ## About The Project
 
-### Filament v3 release
+### Filament v4 & v5 Support
 
-This is the v3 branch, compatible with the recent Filament v3 release.  At some point soon we will replace
-the main branch (currently the Filament v2 compatible branch) with this v3 branch, and move Filament v2 support to
-a v2 branch.
+This branch supports both Filament v4 (with Livewire 3) and Filament v5 (with Livewire 4), allowing you to use
+this package regardless of which Filament version you're on.
 
-Please report any you find either on the [GitHub Issues](https://github.com/cheesegrits/filament-google-maps/issues) page,
+Please report any issues on the [GitHub Issues](https://github.com/cheesegrits/filament-google-maps/issues) page,
 or find me (@cheesegrits) on the [Filament Discord server](https://filamentphp.com/discord).
 
 ### API Usage
@@ -136,8 +135,10 @@ a combination of address fields into lat lng, or reverse geocoding lat and lng t
 
 ### Prerequisites
 
-This package is built on Filament V2, and Laravel 9.  It may run on earlier versions of
-Laravel, but has not been tested.
+**Requirements:**
+- PHP 8.2 or higher
+- Laravel 11.28 or higher
+- Filament 4.0 or 5.0 (supports both v4 with Livewire 3 and v5 with Livewire 4)
 
 ### Installation
 
