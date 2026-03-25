@@ -27,6 +27,10 @@ trait InteractsWithMaps
                 return true;
             }
 
+            if (! method_exists($component, 'getChildComponentContainers')) {                            
+                continue;
+            }
+
             foreach ($component->getChildComponentContainers() as $childComponentContainer) {
                 if ($childComponentContainer->isHidden()) {
                     continue;
@@ -59,6 +63,10 @@ trait InteractsWithMaps
                 $component->placeUpdated($results);
 
                 return true;
+            }
+
+            if (! method_exists($component, 'getChildComponentContainers')) {                            
+                continue;
             }
 
             foreach ($component->getChildComponentContainers() as $childComponentContainer) {
